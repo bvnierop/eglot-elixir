@@ -82,7 +82,7 @@
     (condition-case err
         (let ((json-object-type 'hash-table)
               (url-mime-accept-string "application/json"))
-          (url-insert-file-contents "https://github.com/elixir-lsp/elixir-ls/releases/latest")
+          (url-insert-file-contents "https://api.github.com/repos/elixir-lsp/elixir-ls/releases/latest")
           (goto-char (point-min))
           (setq eglot-elixir-github-version (gethash "tag_name" (json-read))))
       (file-error
@@ -91,8 +91,8 @@
 (defun eglot-elixir--install (version)
   "Downloads VERSION of elixir-ls and install in `eglot-elixir-install-dir'"
 
-  (let ((url (format "https://github.com/elixir-lsp/elixir-ls/releases/download/%s/elixir-ls.zip"
-                     version))
+  (let ((url (format "https://github.com/elixir-lsp/elixir-ls/releases/download/%s/elixir-ls-%s.zip"
+                     version version))
         (zip (eglot-elixir--zip-file)))
     (make-directory eglot-elixir-install-dir t)
     (url-copy-file url zip t)
